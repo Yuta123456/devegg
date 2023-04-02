@@ -22,7 +22,10 @@ export default function Home() {
   const [password, setPassword] = useState("");
   return (
     <Center flexDirection="column">
-      <Heading py="30px">Welcome to DevEgg!</Heading>
+      <Heading pt="30px" pb="15px">
+        Welcome to DevEgg!
+      </Heading>
+      <Image src="/DevEgg.png" alt="DevEgg logo" width={200} height={200} />
       <Link href="./about">
         <Button
           size="lg"
@@ -34,8 +37,7 @@ export default function Home() {
           Dev Eggについて <Icon as={ChevronRightIcon} />
         </Button>
       </Link>
-      <Image src="/DevEgg.png" alt="DevEgg logo" width={200} height={200} />
-      <Box>
+      <Box pt="10px">
         <FormControl isInvalid={isError}>
           <FormLabel>メールアドレス</FormLabel>
           <Input

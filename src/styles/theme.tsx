@@ -9,7 +9,7 @@ export const theme = extendTheme({
     },
   },
   fonts: {
-    heading: "Comic Sans MS",
-    body: "Comic Sans MS",
+    heading: "IBM Plex Sans JP",
+    body: "IBM Plex Sans JP",
   },
 });

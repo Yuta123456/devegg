@@ -27,7 +27,7 @@ export const RequestCard: FC<RequestCardProps> = ({
   targetAudience,
   price,
   colorCode,
-  fontName: fontNames,
+  fontName,
   deadline,
 }) => {
   return (
@@ -36,9 +36,31 @@ export const RequestCard: FC<RequestCardProps> = ({
         <CardHeader>
           <Heading size="md">{title}</Heading>
         </CardHeader>
-
         <CardBody>
           <Stack divider={<StackDivider />} spacing="4">
+            <Box>
+              <Heading size="xs" textTransform="uppercase">
+                {colorCode && (
+                  <>
+                    {colorCode.map((color: string) => (
+                      <span
+                        key={color}
+                        style={{
+                          display: "inline-block",
+                          width: "20px",
+                          height: "20px",
+                          margin: "0 5px",
+                          backgroundColor: color,
+                          border: `2px solid ${
+                            color === "#FFFFFF" ? "#E2E8F0" : color
+                          }`,
+                        }}
+                      ></span>
+                    ))}
+                  </>
+                )}
+              </Heading>
+            </Box>
             <Box>
               <Heading size="xs" textTransform="uppercase">
                 コンセプト
@@ -60,9 +82,29 @@ export const RequestCard: FC<RequestCardProps> = ({
                 値段
               </Heading>
               <Text pt="2" fontSize="sm">
-                {price}
+                {price}円
               </Text>
             </Box>
+            {fontName && (
+              <Box>
+                <Heading size="xs" textTransform="uppercase">
+                  フォント
+                </Heading>
+                <Text pt="2" fontSize="sm">
+                  {fontName}
+                </Text>
+              </Box>
+            )}
+            {deadline && (
+              <Box>
+                <Heading size="xs" textTransform="uppercase">
+                  期限
+                </Heading>
+                <Text pt="2" fontSize="sm">
+                  {deadline.toLocaleDateString()}
+                </Text>
+              </Box>
+            )}
           </Stack>
         </CardBody>
       </Card>

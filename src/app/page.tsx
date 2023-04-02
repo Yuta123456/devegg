@@ -1,18 +1,14 @@
 "use client";
-import { Inter } from "next/font/google";
 import { Container, SimpleGrid } from "@chakra-ui/react";
 import { RequestCard } from "@/components/RequestCard";
-import { DesignRequest } from "@/model/DesignRequest";
 import { designRequests } from "@/mock/designRequests";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-    <Container maxW="container.lg" h="100%">
+    <Container maxW="container.lg" pb="30px">
       <SimpleGrid
         spacing={4}
-        templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
+        templateColumns="repeat(auto-fill, minmax(300px, 1fr))"
         paddingTop="10px"
       >
         {designRequests !== undefined &&

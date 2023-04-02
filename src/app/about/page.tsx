@@ -1,5 +1,5 @@
 "use client";
-import { Center, Flex, Heading, SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, Center, Flex, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 import Image from "next/image";
 
 export default function Home() {
@@ -37,12 +37,14 @@ export default function Home() {
           <Heading fontFamily="Impact" letterSpacing="3px" py="20px">
             For Developers
           </Heading>
-          <Image
-            src="/engineer2.svg"
-            alt="Dev Egg logo"
-            width="300"
-            height="300"
-          />
+          <Box py="15px">
+            <Image
+              src="/engineer2.svg"
+              alt="Dev Egg logo"
+              width="300"
+              height="300"
+            />
+          </Box>
           <Text color="gray.500">
             開発者の卵の方は日々Webサイトやアプリ、その他様々なUIデザインをする必要に迫られていると思います。
             ロゴやバナーであっても例外ではありません。「なんか自分の作ったWebサイト、淡白なんだよなぁ」って思った事はないですか？
@@ -53,12 +55,14 @@ export default function Home() {
           <Heading fontFamily="Impact" letterSpacing="3px" py="20px">
             For Designers
           </Heading>
-          <Image
-            src="/designer.svg"
-            alt="Dev Egg logo"
-            width="300"
-            height="300"
-          />
+          <Box py="15px">
+            <Image
+              src="/designer.svg"
+              alt="Dev Egg logo"
+              width="300"
+              height="300"
+            />
+          </Box>
           <Text color="gray.500">
             デザイナーになるためには、デザインの練習が欠かせません。デザイナーの卵である皆さんはIllustrator等で日々デザインのスキルを磨いていることでしょう。
             ところで、実際の現場ではクライアントの要望を聞いたり、アプリのコンセプトに沿ったデザインを開発者と行っていく必要があります。

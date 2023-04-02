@@ -24,7 +24,7 @@ export default function Home() {
   return (
     <Center flexDirection="column">
       <Heading pt="30px" pb="15px">
-        Welcome back to DevEgg!
+        Welcome to DevEgg!
       </Heading>
       <Image src="/DevEgg.png" alt="DevEgg logo" width={200} height={200} />
       <FormControl isInvalid={isError} maxW="500px">
@@ -60,7 +60,7 @@ export default function Home() {
         variant="outline"
         mt="15px"
       >
-        ログイン
+        登録
       </Button>
       <Link href="./about">
         <Button

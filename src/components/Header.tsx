@@ -8,6 +8,7 @@ export const Header: FC = () => {
   const pathname = usePathname();
   const router = useRouter();
   const isLoginPage = pathname === "/login";
+  const isSignupPage = pathname === "/signup";
   return (
     <Box h="100px" bg="white">
       <Container maxW="container.lg" h="100%">
@@ -21,16 +22,29 @@ export const Header: FC = () => {
               priority
             />
           </Link>
-          <Button
-            size="lg"
-            bg="yellow.100"
-            _hover={{ bg: "yellow.200" }}
-            variant="outline"
-            onClick={() => router.push("/login")}
-            hidden={isLoginPage}
-          >
-            ログイン / 登録
-          </Button>
+          <Box>
+            <Button
+              size="lg"
+              bg="yellow.100"
+              _hover={{ bg: "yellow.200" }}
+              variant="outline"
+              onClick={() => router.push("/login")}
+              hidden={isLoginPage}
+            >
+              ログイン
+            </Button>
+            <Button
+              ml="10px"
+              size="lg"
+              bg="yellow.100"
+              _hover={{ bg: "yellow.200" }}
+              variant="outline"
+              onClick={() => router.push("/signup")}
+              hidden={isSignupPage}
+            >
+              登録
+            </Button>
+          </Box>
         </Flex>
       </Container>
     </Box>

@@ -97,7 +97,9 @@ export default function Home(props: PageProps) {
               <Text fontWeight="bold" w="30%">
                 フォント
               </Text>
-              <Text>{designRequest.fontName}</Text>
+              <Text fontFamily={designRequest.fontName}>
+                {designRequest.fontName}
+              </Text>
             </Flex>
           </ListItem>
         </List>

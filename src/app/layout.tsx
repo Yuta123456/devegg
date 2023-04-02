@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Dev Egg",
   description: "開発者の卵とデザイナーの卵のマッチングサービス",
   openGraph: {
-    images: ["/DevEgg.png"],
+    images: "/DevEgg.png",
   },
   icons: "/icon.png",
 };

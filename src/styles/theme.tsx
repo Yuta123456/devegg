@@ -9,7 +9,7 @@ export const theme = extendTheme({
     },
   },
   fonts: {
-    heading: "IBM Plex Sans JP",
-    body: "IBM Plex Sans JP",
+    // heading: "IBM Plex Sans JP",
+    // body: "IBM Plex Sans JP",
   },
 });

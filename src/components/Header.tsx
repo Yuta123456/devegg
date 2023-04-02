@@ -29,7 +29,7 @@ export const Header: FC = () => {
             onClick={() => router.push("/login")}
             hidden={isLoginPage}
           >
-            ログイン
+            ログイン / 登録
           </Button>
         </Flex>
       </Container>

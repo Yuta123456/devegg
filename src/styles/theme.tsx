@@ -8,4 +8,8 @@ export const theme = extendTheme({
       },
     },
   },
+  fonts: {
+    heading: "Comic Sans MS",
+    body: "Comic Sans MS",
+  },
 });

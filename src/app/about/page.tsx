@@ -5,11 +5,7 @@ import Image from "next/image";
 export default function Home() {
   return (
     <>
-      <Flex
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="space-between"
-      >
+      <SimpleGrid columns={2} minChildWidth="300px">
         <Flex flexDirection="column">
           <Flex py="20px">
             <Heading fontFamily="Impact" letterSpacing="3px">
@@ -17,7 +13,7 @@ export default function Home() {
             </Heading>
           </Flex>
           <Flex py="20px">
-            <Text color="gray.500" w="400px">
+            <Text color="gray.500" maxW="400px">
               開発者の卵とデザイナーの卵のマッチングサービスです。開発者の人は、デザインの依頼を投稿します。デザイナーの方は、それに応えるような形で、デザインを投稿することが出来ます。
             </Text>
           </Flex>
@@ -30,9 +26,9 @@ export default function Home() {
             height="300"
           />
         </Flex>
-      </Flex>
+      </SimpleGrid>
 
-      <SimpleGrid columns={2} spacing={10}>
+      <SimpleGrid columns={2} spacing={10} minChildWidth="300px">
         <Flex flexDirection="column">
           <Heading fontFamily="Impact" letterSpacing="3px" py="20px">
             For Developers

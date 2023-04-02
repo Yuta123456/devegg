@@ -14,6 +14,7 @@ const Footer = () => {
           px="8"
           bg="white"
           color="black"
+          mt="auto"
         >
           <Text>&copy; Tanaka Yuta</Text>
           <Flex align="center">

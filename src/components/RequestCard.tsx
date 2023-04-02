@@ -10,6 +10,7 @@ import {
   Box,
   Text,
 } from "@chakra-ui/react";
+import Link from "next/link";
 export type RequestCardProps = {
   id: string;
   title: string;
@@ -31,7 +32,7 @@ export const RequestCard: FC<RequestCardProps> = ({
   deadline,
 }) => {
   return (
-    <>
+    <Link href={`/design/${id}`}>
       <Card>
         <CardHeader>
           <Heading size="md">{title}</Heading>
@@ -108,6 +109,6 @@ export const RequestCard: FC<RequestCardProps> = ({
           </Stack>
         </CardBody>
       </Card>
-    </>
+    </Link>
   );
 };

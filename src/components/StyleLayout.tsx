@@ -3,6 +3,8 @@ import { Box, Container, Flex } from "@chakra-ui/react";
 import Footer from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Noto_Sans_JP } from "@next/font/google";
+import { useRecoilState } from "recoil";
+import { userState } from "@/app/state/user";
 const notojp = Noto_Sans_JP({
   weight: ["400", "500", "700"],
   subsets: ["latin"],
@@ -14,6 +16,7 @@ export default function StyleLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [_, setUser] = useRecoilState(userState);
   return (
     <Flex direction="column" minH="100vh" className={notojp.className}>
       <Header />

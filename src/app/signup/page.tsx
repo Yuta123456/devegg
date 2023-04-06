@@ -19,11 +19,19 @@ import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { userState } from "../state/user";
+import { useRecoilState } from "recoil";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [isError, setIsError] = useState(false);
   const [email, setEmail] = useState("");
+
   const [password, setPassword] = useState("");
+
+  const router = useRouter();
+  const [_, setUser] = useRecoilState(userState);
+
   const loginWithGithub = () => {
     signInWithPopup(auth, githubAuthProvider)
       .then((result) => {
@@ -35,7 +43,12 @@ export default function Home() {
         // TODO: token save
         console.log(result, credential, result.user);
         const token = credential.accessToken;
+        if (token) {
+          sessionStorage.setItem("accessToken", token);
+        }
         const user = result.user;
+        setUser(user);
+        router.push("/");
       })
       .catch((e) => {
         // TODO: error握りつぶしてる

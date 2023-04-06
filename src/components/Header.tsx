@@ -42,17 +42,17 @@ export const Header: FC = () => {
                 hidden={!isDesignPage}
                 label="デザインを投稿"
               />
-              <Button
+              {/* <Button
                 onClick={() => setIsLogin(false)}
                 hidden={isLoginPage || isSignUpPage}
                 label="ログアウト"
-              />
+              /> */}
             </Box>
           ) : (
             <Box>
               <Button
-                // onClick={() => router.push("/login")}
-                onClick={() => setIsLogin(true)}
+                onClick={() => router.push("/login")}
+                // onClick={() => setIsLogin(true)}
                 hidden={isLoginPage}
                 label="ログイン"
               />

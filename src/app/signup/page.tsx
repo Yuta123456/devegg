@@ -1,4 +1,6 @@
 "use client";
+import { auth } from "@/firebase/firebase";
+import { githubAuthProvider } from "@/firebase/login";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import {
   Box,
@@ -13,6 +15,7 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
+import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -21,6 +24,24 @@ export default function Home() {
   const [isError, setIsError] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const loginWithGithub = () => {
+    signInWithPopup(auth, githubAuthProvider)
+      .then((result) => {
+        const credential = GithubAuthProvider.credentialFromResult(result);
+        if (credential === null) {
+          // TODO: Error処理
+          return;
+        }
+        // TODO: token save
+        console.log(result, credential, result.user);
+        const token = credential.accessToken;
+        const user = result.user;
+      })
+      .catch((e) => {
+        // TODO: error握りつぶしてる
+        console.log(e);
+      });
+  };
   return (
     <Center flexDirection="column">
       <Heading pt="30px" pb="15px">
@@ -61,6 +82,16 @@ export default function Home() {
         mt="15px"
       >
         登録
+      </Button>
+      <Button
+        size="lg"
+        bg="white"
+        _hover={{ bg: "gray.100" }}
+        variant="outline"
+        mt="15px"
+        onClick={loginWithGithub}
+      >
+        GitHubでログイン
       </Button>
       <Link href="./about">
         <Button

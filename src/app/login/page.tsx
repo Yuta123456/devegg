@@ -15,7 +15,11 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
-import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  GithubAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -30,6 +34,19 @@ export default function Home() {
   const router = useRouter();
 
   const [user, setUser] = useRecoilState(userState);
+
+  const loginWithEmailAndPassWord = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        setUser(user);
+        router.push("/");
+      })
+      .catch((e) => {
+        // TODO: error握りつぶしてる
+        console.log(e);
+      });
+  };
   const loginWithGithub = () => {
     signInWithPopup(auth, githubAuthProvider)
       .then((result) => {
@@ -91,6 +108,7 @@ export default function Home() {
         _hover={{ bg: "gray.100" }}
         variant="outline"
         mt="15px"
+        onClick={loginWithEmailAndPassWord}
       >
         ログイン
       </Button>

@@ -14,6 +14,7 @@ import {
   Icon,
   Input,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import {
   GithubAuthProvider,
@@ -31,23 +32,43 @@ export default function Home() {
   const [isError, setIsError] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
+  const [isLoginLoading, setIsLoginLoading] = useState(false);
+  const [isGithubLoginLoading, setIsGithubLoginLoading] = useState(false);
 
+  const router = useRouter();
+  const toast = useToast();
   const [user, setUser] = useRecoilState(userState);
 
   const loginWithEmailAndPassWord = () => {
+    setIsLoginLoading(true);
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        toast({
+          title: "ログインに成功しました",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
         setUser(user);
         router.push("/");
       })
       .catch((e) => {
         // TODO: error握りつぶしてる
+        toast({
+          title: "ログインに失敗しました",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
         console.log(e);
+      })
+      .finally(() => {
+        setIsLoginLoading(false);
       });
   };
   const loginWithGithub = () => {
+    setIsGithubLoginLoading(true);
     signInWithPopup(auth, githubAuthProvider)
       .then((result) => {
         const credential = GithubAuthProvider.credentialFromResult(result);
@@ -55,19 +76,32 @@ export default function Home() {
           // TODO: Error処理
           return;
         }
-        // TODO: token save
-        console.log(result, credential, result.user);
         const token = credential.accessToken;
         if (token) {
           sessionStorage.setItem("accessToken", token);
         }
         const user = result.user;
         setUser(user);
+        toast({
+          title: "ログインに成功しました",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
         router.push("/");
       })
       .catch((e) => {
         // TODO: error握りつぶしてる
+        toast({
+          title: "ログインに失敗しました",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
         console.log(e);
+      })
+      .finally(() => {
+        setIsGithubLoginLoading(false);
       });
   };
   return (
@@ -109,6 +143,7 @@ export default function Home() {
         variant="outline"
         mt="15px"
         onClick={loginWithEmailAndPassWord}
+        isLoading={isLoginLoading}
       >
         ログイン
       </Button>
@@ -119,6 +154,7 @@ export default function Home() {
         variant="outline"
         mt="15px"
         onClick={loginWithGithub}
+        isLoading={isGithubLoginLoading}
       >
         GitHubでログイン
       </Button>

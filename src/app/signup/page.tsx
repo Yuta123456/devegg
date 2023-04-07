@@ -3,17 +3,15 @@ import { auth } from "@/firebase/firebase";
 import { githubAuthProvider } from "@/firebase/login";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import {
-  Box,
   Button,
   Center,
-  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Heading,
   Icon,
   Input,
-  Text,
+  useToast,
 } from "@chakra-ui/react";
 import {
   GithubAuthProvider,
@@ -36,15 +34,29 @@ export default function Home() {
   const router = useRouter();
   const [_, setUser] = useRecoilState(userState);
 
+  const toast = useToast();
+
   const signUpWithEmailAndPassWord = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        toast({
+          title: "アカウントを作成しました",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
         setUser(user);
         router.push("/");
       })
       .catch((e) => {
         // TODO: error握りつぶしてる
+        toast({
+          title: "アカウントの作成に失敗しました",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
         console.log(e);
       });
   };
@@ -64,6 +76,12 @@ export default function Home() {
         }
         const user = result.user;
         setUser(user);
+        toast({
+          title: "アカウントを作成しました",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
         router.push("/");
       })
       .catch((e) => {

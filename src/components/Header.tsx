@@ -6,16 +6,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { UploadDesignModal } from "./UploadDesignModal";
+import { useRecoilState } from "recoil";
+import { userState } from "@/app/state/user";
 export const Header: FC = () => {
   const pathname = usePathname();
   const router = useRouter();
+  // pathname判定に切り出し
   const isLoginPage = pathname === "/login";
   const isSignUpPage = pathname === "/signup";
   const isRequestPage = pathname === "/request";
   const isDesignPage = /\/design\/*/.test(pathname);
-  const [isLogin, setIsLogin] = useState(false);
 
-  console.log(isDesignPage);
+  const [user, _] = useRecoilState(userState);
+
   const [showUploadDesignModal, setShowUploadDesignModal] = useState(false);
   return (
     <Box h="100px" bg="white">
@@ -30,7 +33,7 @@ export const Header: FC = () => {
               priority
             />
           </Link>
-          {isLogin ? (
+          {user ? (
             <Box>
               <Button
                 onClick={() => router.push("/request")}
@@ -42,17 +45,12 @@ export const Header: FC = () => {
                 hidden={!isDesignPage}
                 label="デザインを投稿"
               />
-              <Button
-                onClick={() => setIsLogin(false)}
-                hidden={isLoginPage || isSignUpPage}
-                label="ログアウト"
-              />
             </Box>
           ) : (
             <Box>
               <Button
-                // onClick={() => router.push("/login")}
-                onClick={() => setIsLogin(true)}
+                onClick={() => router.push("/login")}
+                // onClick={() => setIsLogin(true)}
                 hidden={isLoginPage}
                 label="ログイン"
               />

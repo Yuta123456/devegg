@@ -1,4 +1,6 @@
 "use client";
+import { auth } from "@/firebase/firebase";
+import { githubAuthProvider } from "@/firebase/login";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import {
   Box,
@@ -12,15 +14,96 @@ import {
   Icon,
   Input,
   Text,
+  useToast,
 } from "@chakra-ui/react";
+import {
+  GithubAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { userState } from "../state/user";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [isError, setIsError] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoginLoading, setIsLoginLoading] = useState(false);
+  const [isGithubLoginLoading, setIsGithubLoginLoading] = useState(false);
+
+  const router = useRouter();
+  const toast = useToast();
+  const [user, setUser] = useRecoilState(userState);
+
+  const loginWithEmailAndPassWord = () => {
+    setIsLoginLoading(true);
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        toast({
+          title: "ログインに成功しました",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+        setUser(user);
+        router.push("/");
+      })
+      .catch((e) => {
+        // TODO: error握りつぶしてる
+        toast({
+          title: "ログインに失敗しました",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+        console.log(e);
+      })
+      .finally(() => {
+        setIsLoginLoading(false);
+      });
+  };
+  const loginWithGithub = () => {
+    setIsGithubLoginLoading(true);
+    signInWithPopup(auth, githubAuthProvider)
+      .then((result) => {
+        const credential = GithubAuthProvider.credentialFromResult(result);
+        if (credential === null) {
+          // TODO: Error処理
+          return;
+        }
+        const token = credential.accessToken;
+        if (token) {
+          sessionStorage.setItem("accessToken", token);
+        }
+        const user = result.user;
+        setUser(user);
+        toast({
+          title: "ログインに成功しました",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+        router.push("/");
+      })
+      .catch((e) => {
+        // TODO: error握りつぶしてる
+        toast({
+          title: "ログインに失敗しました",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+        console.log(e);
+      })
+      .finally(() => {
+        setIsGithubLoginLoading(false);
+      });
+  };
   return (
     <Center flexDirection="column">
       <Heading pt="30px" pb="15px">
@@ -59,8 +142,21 @@ export default function Home() {
         _hover={{ bg: "gray.100" }}
         variant="outline"
         mt="15px"
+        onClick={loginWithEmailAndPassWord}
+        isLoading={isLoginLoading}
       >
         ログイン
+      </Button>
+      <Button
+        size="lg"
+        bg="white"
+        _hover={{ bg: "gray.100" }}
+        variant="outline"
+        mt="15px"
+        onClick={loginWithGithub}
+        isLoading={isGithubLoginLoading}
+      >
+        GitHubでログイン
       </Button>
       <Link href="./about">
         <Button

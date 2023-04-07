@@ -1,26 +1,94 @@
 "use client";
+import { auth } from "@/firebase/firebase";
+import { githubAuthProvider } from "@/firebase/login";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import {
-  Box,
   Button,
   Center,
-  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Heading,
   Icon,
   Input,
-  Text,
+  useToast,
 } from "@chakra-ui/react";
+import {
+  GithubAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { userState } from "../state/user";
+import { useRecoilState } from "recoil";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [isError, setIsError] = useState(false);
   const [email, setEmail] = useState("");
+
   const [password, setPassword] = useState("");
+
+  const router = useRouter();
+  const [_, setUser] = useRecoilState(userState);
+
+  const toast = useToast();
+
+  const signUpWithEmailAndPassWord = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        toast({
+          title: "アカウントを作成しました",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+        setUser(user);
+        router.push("/");
+      })
+      .catch((e) => {
+        // TODO: error握りつぶしてる
+        toast({
+          title: "アカウントの作成に失敗しました",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+        console.log(e);
+      });
+  };
+  const signInWithGithub = () => {
+    signInWithPopup(auth, githubAuthProvider)
+      .then((result) => {
+        const credential = GithubAuthProvider.credentialFromResult(result);
+        if (credential === null) {
+          // TODO: Error処理
+          return;
+        }
+        // TODO: token save
+        console.log(result, credential, result.user);
+        const token = credential.accessToken;
+        if (token) {
+          sessionStorage.setItem("accessToken", token);
+        }
+        const user = result.user;
+        setUser(user);
+        toast({
+          title: "アカウントを作成しました",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+        router.push("/");
+      })
+      .catch((e) => {
+        // TODO: error握りつぶしてる
+        console.log(e);
+      });
+  };
   return (
     <Center flexDirection="column">
       <Heading pt="30px" pb="15px">
@@ -59,8 +127,19 @@ export default function Home() {
         _hover={{ bg: "gray.100" }}
         variant="outline"
         mt="15px"
+        onClick={signUpWithEmailAndPassWord}
       >
         登録
+      </Button>
+      <Button
+        size="lg"
+        bg="white"
+        _hover={{ bg: "gray.100" }}
+        variant="outline"
+        mt="15px"
+        onClick={signInWithGithub}
+      >
+        GitHubでログイン
       </Button>
       <Link href="./about">
         <Button

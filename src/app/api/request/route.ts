@@ -11,20 +11,48 @@ export async function POST(req: Request) {
   } catch {
     return NextResponse.json({
       status: 500,
-      message: "design request was failed",
+      message: "POST: design request was failed",
     });
   }
   return NextResponse.json({
     status: 200,
-    message: "design request was succeed",
+    message: "POST: design request was succeed",
   });
 }
 
 const postDesignRequest = async (req: Request) => {
   const docRef = db.collection(COLLECTION_NAME).doc();
   const insertData: CreateDesignRequestInput = await req.json();
+  console.log(insertData);
   // 一意なidを振る
   const id = uuidv4();
   insertData.designRequest.id = id;
   docRef.set(insertData);
+};
+// fetch("http://localhost:3000/api/request").then((res) => res.json()).then((res) => console.log(res));
+export async function GET(req: Request) {
+  try {
+    const designRequests = await getDesignRequests(req);
+    return NextResponse.json({
+      status: 200,
+      data: designRequests,
+    });
+  } catch {
+    return NextResponse.json({
+      status: 500,
+      message: "GET: design request was failed",
+    });
+  }
+}
+
+const getDesignRequests = async (req: Request) => {
+  // NOTE: reqでsort順とかfilterとかあれば追加
+  const docRef = db.collection(COLLECTION_NAME);
+  let designRequests: CreateDesignRequestInput[] = [];
+  await docRef.get().then((snapshot) => {
+    snapshot.forEach((doc) => {
+      designRequests.push(doc.data() as CreateDesignRequestInput);
+    });
+  });
+  return designRequests;
 };

@@ -4,6 +4,7 @@ import { RequestCard } from "@/components/RequestCard";
 import { designRequests } from "@/mock/designRequests";
 
 export default function Home() {
+  // const designRequests = useSWR();
   return (
     <SimpleGrid
       spacing={4}

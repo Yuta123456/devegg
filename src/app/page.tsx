@@ -2,9 +2,20 @@
 import { SimpleGrid } from "@chakra-ui/react";
 import { RequestCard } from "@/components/RequestCard";
 import { designRequests } from "@/mock/designRequests";
+import useSWR from "swr";
+import { DesignRequest } from "@/model/DesignRequest";
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 export default function Home() {
-  // const designRequests = useSWR();
+  const {
+    data: designRequests,
+    error,
+    isLoading,
+  } = useSWR<DesignRequest[]>("/api/request", fetcher);
+  if (error || isLoading || !designRequests) {
+    <div>loading...</div>;
+  }
+  console.log(designRequests);
   return (
     <SimpleGrid
       spacing={4}

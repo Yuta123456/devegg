@@ -23,7 +23,6 @@ export async function POST(req: Request) {
 const postDesignRequest = async (req: Request) => {
   const docRef = db.collection(COLLECTION_NAME).doc();
   const insertData: CreateDesignRequestInput = await req.json();
-  console.log(insertData);
   // 一意なidを振る
   const id = uuidv4();
   insertData.designRequest.id = id;
@@ -33,10 +32,7 @@ const postDesignRequest = async (req: Request) => {
 export async function GET(req: Request) {
   try {
     const designRequests = await getDesignRequests(req);
-    return NextResponse.json({
-      status: 200,
-      data: designRequests,
-    });
+    return NextResponse.json(designRequests);
   } catch {
     return NextResponse.json({
       status: 500,
@@ -54,5 +50,5 @@ const getDesignRequests = async (req: Request) => {
       designRequests.push(doc.data() as CreateDesignRequestInput);
     });
   });
-  return designRequests;
+  return designRequests.map((designRequests) => designRequests.designRequest);
 };

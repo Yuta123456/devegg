@@ -102,7 +102,7 @@ export const RequestCard: FC<RequestCardProps> = ({
                   期限
                 </Heading>
                 <Text pt="2" fontSize="sm">
-                  {deadline.toLocaleDateString()}
+                  {deadline}
                 </Text>
               </Box>
             )}

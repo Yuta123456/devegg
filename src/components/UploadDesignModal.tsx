@@ -13,6 +13,11 @@ import { FC, useRef, useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import { Button } from "./Button";
 import { usePathname, useRouter } from "next/navigation";
+import { ref, uploadBytes } from "firebase/storage";
+import { storage } from "@/firebase/firebase";
+import { userState } from "@/app/state/user";
+import { useRecoilState } from "recoil";
+import useSWR from "swr";
 type UploadDesignModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -25,13 +30,16 @@ export const UploadDesignModal: FC<UploadDesignModalProps> = ({
   const [fileName, setFileName] = useState("");
   const [file, setFile] = useState<File>();
   const toast = useToast();
+  const [user, setUser] = useRecoilState(userState);
 
   const pathname = usePathname();
   const id = pathname.split("/")[2];
 
+  const { mutate } = useSWR(`/api/design/${id}`, (url) =>
+    fetch(url).then((res) => res.json())
+  );
   const fileUpload = () => {
     if (!inputRef.current) return;
-    // 今のところコレ解決できない。
     // @ts-ignore マジですんません
     inputRef.current.click();
   };
@@ -51,16 +59,15 @@ export const UploadDesignModal: FC<UploadDesignModalProps> = ({
       });
       return;
     }
-    // const storageRef = ref(
-    //   storage,
-    //   `images/${designRequest.id}/${fileName}`
-    // );
-    // uploadBytes(storageRef, file).then((snapshot) => {
-    //   console.log("Uploaded an image!");
-    // });
+
+    const storageRef = ref(storage, `images/${id}/${user?.uid}/${fileName}`);
+    uploadBytes(storageRef, file).then((snapshot) => {
+      console.log("Uploaded an image!", snapshot.metadata);
+    });
     setFile(undefined);
     setFileName("");
     onClose();
+    mutate();
     toast({
       title: "デザインを送信しました",
       position: "bottom",

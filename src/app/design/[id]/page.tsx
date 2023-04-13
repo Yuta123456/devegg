@@ -1,6 +1,4 @@
 "use client";
-import { designRequests } from "@/mock/designRequests";
-import { imageURLList } from "@/mock/imageURLList";
 import { DesignRequest } from "@/model/DesignRequest";
 import {
   Box,
@@ -15,20 +13,35 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
+import useSWR from "swr";
 type PageProps = {
   params: {
     id: string;
   };
 };
+const fetcher = (url: string) =>
+  fetch(url)
+    .then((res) => res.json())
+    .then((res) => {
+      const designRequest: DesignRequest = {
+        ...res,
+        deadline: new Date(res.deadline),
+      };
+      return designRequest;
+    });
 export default function Home(props: PageProps) {
   const {
     params: { id },
   } = props;
   // エラーあり得る
-  const designRequest: DesignRequest = designRequests.filter(
-    (d) => d.id === id?.toString()
-  )[0];
-  if (designRequest === undefined) {
+  const { data: designRequest } = useSWR<DesignRequest>(
+    `/api/request/${id}`,
+    fetcher
+  );
+  const { data: imageURLList } = useSWR<string[]>(`/api/design/${id}`, (url) =>
+    fetch(url).then((res) => res.json())
+  );
+  if (!designRequest) {
     return null;
   }
 
@@ -109,13 +122,14 @@ export default function Home(props: PageProps) {
         templateColumns="repeat(auto-fill, minmax(300px, 1fr))"
         paddingTop="10px"
       >
-        {imageURLList.map((url) => (
-          <Card maxW="lg" key={url}>
-            <CardBody>
-              <Image src={url} borderRadius="lg" alt="design" />
-            </CardBody>
-          </Card>
-        ))}
+        {imageURLList &&
+          imageURLList.map((url) => (
+            <Card maxW="lg" key={url}>
+              <CardBody>
+                <Image src={url} borderRadius="lg" alt="design" />
+              </CardBody>
+            </Card>
+          ))}
       </SimpleGrid>
     </>
   );

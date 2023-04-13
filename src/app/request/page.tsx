@@ -1,5 +1,6 @@
 "use client";
 
+import { CreateDesignRequestInput, DesignRequest } from "@/model/DesignRequest";
 import { MinusIcon, AddIcon } from "@chakra-ui/icons";
 import {
   Button,
@@ -14,6 +15,9 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { userState } from "../state/user";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [title, setTitle] = useState("");
@@ -24,7 +28,9 @@ export default function Home() {
   const [fontName, setFontName] = useState<string>("");
   const [deadline, setDeadline] = useState<Date | undefined>();
 
+  const [user, _] = useRecoilState(userState);
   const toast = useToast();
+  const router = useRouter();
   const onSubmit = () => {
     if (!title || !concept || !price || !targetAudience) {
       toast({
@@ -36,17 +42,26 @@ export default function Home() {
       });
       return;
     }
-    fetch("/api/request", {
-      method: "POST",
-      body: JSON.stringify({
+    if (!user) {
+      return;
+    }
+    const createDesignRequest: CreateDesignRequestInput = {
+      userId: user?.uid,
+      designRequest: {
         title,
         concept,
         targetAudience,
-        price,
+        price: Number(price),
         colorCode,
         fontName,
         deadline,
-      }),
+      },
+      createdAt: new Date().toLocaleString(),
+      updatedAt: new Date().toLocaleString(),
+    };
+    fetch("/api/request", {
+      method: "POST",
+      body: JSON.stringify(createDesignRequest),
     })
       .then(() => {
         toast({
@@ -56,6 +71,7 @@ export default function Home() {
           duration: 2000,
           isClosable: true,
         });
+        router.push("/");
       })
       .catch((e) => {
         console.log(e);

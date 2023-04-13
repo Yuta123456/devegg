@@ -21,7 +21,7 @@ export const Header: FC = () => {
 
   const [showUploadDesignModal, setShowUploadDesignModal] = useState(false);
   return (
-    <Box h="100px" bg="white">
+    <Box bg="white">
       <Container maxW="container.lg" h="100%">
         <Flex h="100%" alignItems="center" justifyContent="space-between">
           <Link href="/">
@@ -34,7 +34,7 @@ export const Header: FC = () => {
             />
           </Link>
           {user ? (
-            <Box>
+            <Box textAlign={"right"} py="10px">
               <Button
                 onClick={() => router.push("/request")}
                 hidden={isLoginPage || isSignUpPage || isRequestPage}
@@ -43,11 +43,12 @@ export const Header: FC = () => {
               <Button
                 onClick={() => setShowUploadDesignModal(true)}
                 hidden={!isDesignPage}
+                style={{ ml: "10px" }}
                 label="デザインを投稿"
               />
             </Box>
           ) : (
-            <Box>
+            <Box textAlign={"right"} py="10px">
               <Button
                 onClick={() => router.push("/login")}
                 // onClick={() => setIsLogin(true)}

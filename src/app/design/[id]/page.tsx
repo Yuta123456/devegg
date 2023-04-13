@@ -1,6 +1,4 @@
 "use client";
-import { designRequests } from "@/mock/designRequests";
-import { imageURLList } from "@/mock/imageURLList";
 import { DesignRequest } from "@/model/DesignRequest";
 import {
   Box,
@@ -39,6 +37,9 @@ export default function Home(props: PageProps) {
   const { data: designRequest } = useSWR<DesignRequest>(
     `/api/request/${id}`,
     fetcher
+  );
+  const { data: imageURLList } = useSWR<string[]>(`/api/design/${id}`, (url) =>
+    fetch(url).then((res) => res.json())
   );
   if (!designRequest) {
     return null;
@@ -121,13 +122,14 @@ export default function Home(props: PageProps) {
         templateColumns="repeat(auto-fill, minmax(300px, 1fr))"
         paddingTop="10px"
       >
-        {imageURLList.map((url) => (
-          <Card maxW="lg" key={url}>
-            <CardBody>
-              <Image src={url} borderRadius="lg" alt="design" />
-            </CardBody>
-          </Card>
-        ))}
+        {imageURLList &&
+          imageURLList.map((url) => (
+            <Card maxW="lg" key={url}>
+              <CardBody>
+                <Image src={url} borderRadius="lg" alt="design" />
+              </CardBody>
+            </Card>
+          ))}
       </SimpleGrid>
     </>
   );

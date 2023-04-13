@@ -17,6 +17,7 @@ import { ref, uploadBytes } from "firebase/storage";
 import { storage } from "@/firebase/firebase";
 import { userState } from "@/app/state/user";
 import { useRecoilState } from "recoil";
+import useSWR from "swr";
 type UploadDesignModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -29,14 +30,16 @@ export const UploadDesignModal: FC<UploadDesignModalProps> = ({
   const [fileName, setFileName] = useState("");
   const [file, setFile] = useState<File>();
   const toast = useToast();
-
   const [user, setUser] = useRecoilState(userState);
+
   const pathname = usePathname();
   const id = pathname.split("/")[2];
 
+  const { mutate } = useSWR(`/api/design/${id}`, (url) =>
+    fetch(url).then((res) => res.json())
+  );
   const fileUpload = () => {
     if (!inputRef.current) return;
-    // 今のところコレ解決できない。
     // @ts-ignore マジですんません
     inputRef.current.click();
   };
@@ -64,6 +67,7 @@ export const UploadDesignModal: FC<UploadDesignModalProps> = ({
     setFile(undefined);
     setFileName("");
     onClose();
+    mutate();
     toast({
       title: "デザインを送信しました",
       position: "bottom",

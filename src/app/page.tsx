@@ -1,7 +1,6 @@
 "use client";
 import { SimpleGrid } from "@chakra-ui/react";
 import { RequestCard } from "@/components/RequestCard";
-import { designRequests } from "@/mock/designRequests";
 import useSWR from "swr";
 import { DesignRequest } from "@/model/DesignRequest";
 

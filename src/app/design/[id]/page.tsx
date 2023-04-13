@@ -15,20 +15,32 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
+import useSWR from "swr";
 type PageProps = {
   params: {
     id: string;
   };
 };
+const fetcher = (url: string) =>
+  fetch(url)
+    .then((res) => res.json())
+    .then((res) => {
+      const designRequest: DesignRequest = {
+        ...res,
+        deadline: new Date(res.deadline),
+      };
+      return designRequest;
+    });
 export default function Home(props: PageProps) {
   const {
     params: { id },
   } = props;
   // エラーあり得る
-  const designRequest: DesignRequest = designRequests.filter(
-    (d) => d.id === id?.toString()
-  )[0];
-  if (designRequest === undefined) {
+  const { data: designRequest } = useSWR<DesignRequest>(
+    `/api/request/${id}`,
+    fetcher
+  );
+  if (!designRequest) {
     return null;
   }
 

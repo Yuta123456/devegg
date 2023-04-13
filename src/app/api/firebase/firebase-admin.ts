@@ -6,9 +6,7 @@ const firebaseAdmin =
   getApps().length === 0
     ? initializeApp({
         credential: cert(serviceAccount),
-        storageBucket: "devegg-bdced.appspot.com",
       })
     : getApp();
 
 export const db = getFirestore();
-export const bucket = getStorage().bucket();

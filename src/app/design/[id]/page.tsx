@@ -117,12 +117,22 @@ export default function Home(props: PageProps) {
           </ListItem>
         </List>
       </Box>
+      {imageURLList?.length === 0 ? (
+        <Heading fontSize="18px" py="15px">
+          デザインがまだ投稿されていません
+        </Heading>
+      ) : (
+        <Heading fontSize="18px" py="15px">
+          デザイン一覧
+        </Heading>
+      )}
+
       <SimpleGrid
         spacing={4}
         templateColumns="repeat(auto-fill, minmax(300px, 1fr))"
         paddingTop="10px"
       >
-        {imageURLList &&
+        {imageURLList !== undefined &&
           imageURLList.map((url) => (
             <Card maxW="lg" key={url}>
               <CardBody>

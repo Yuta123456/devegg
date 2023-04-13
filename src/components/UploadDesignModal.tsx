@@ -13,6 +13,7 @@ import { FC, useRef, useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import { Button } from "./Button";
 import { usePathname, useRouter } from "next/navigation";
+import { ref } from "firebase/storage";
 type UploadDesignModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -51,10 +52,8 @@ export const UploadDesignModal: FC<UploadDesignModalProps> = ({
       });
       return;
     }
-    // const storageRef = ref(
-    //   storage,
-    //   `images/${designRequest.id}/${fileName}`
-    // );
+
+    // const storageRef = ref(storage, `images/${designRequest.id}/${fileName}`);
     // uploadBytes(storageRef, file).then((snapshot) => {
     //   console.log("Uploaded an image!");
     // });

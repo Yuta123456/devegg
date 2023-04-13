@@ -1,11 +1,17 @@
-import { initializeApp, cert, getApps, getApp } from "firebase-admin/app";
+import {
+  initializeApp,
+  cert,
+  getApps,
+  getApp,
+  ServiceAccount,
+} from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import { serviceAccount } from "./serviceAccountKey";
 import { getStorage } from "firebase-admin/storage";
 const firebaseAdmin =
   getApps().length === 0
     ? initializeApp({
-        credential: cert(serviceAccount),
+        credential: cert(serviceAccount as ServiceAccount),
       })
     : getApp();
 

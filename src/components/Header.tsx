@@ -7,7 +7,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { UploadDesignModal } from "./UploadDesignModal";
 import { useRecoilState } from "recoil";
-import { userState } from "@/app/state/user";
+import { userState } from "@/state/user";
+import { Avatar, AvatarBadge, AvatarGroup } from "@chakra-ui/react";
 export const Header: FC = () => {
   const pathname = usePathname();
   const router = useRouter();
@@ -18,8 +19,6 @@ export const Header: FC = () => {
   const isDesignPage = /\/design\/*/.test(pathname);
 
   const [user, _] = useRecoilState(userState);
-
-  const [showUploadDesignModal, setShowUploadDesignModal] = useState(false);
   return (
     <Box bg="white">
       <Container maxW="container.lg" h="100%">
@@ -39,12 +38,14 @@ export const Header: FC = () => {
                 onClick={() => router.push("/request")}
                 hidden={isLoginPage || isSignUpPage || isRequestPage}
                 label="依頼を投稿"
+                style={{ mr: "10px" }}
               />
-              <Button
-                onClick={() => setShowUploadDesignModal(true)}
-                hidden={!isDesignPage}
-                style={{ ml: "10px" }}
-                label="デザインを投稿"
+              <Avatar
+                name="Kola Tioluwani"
+                hidden={!user}
+                src="https://bit.ly/tioluwani-kolawole"
+                onClick={() => router.push("/user")}
+                style={{ cursor: "pointer" }}
               />
             </Box>
           ) : (
@@ -65,10 +66,6 @@ export const Header: FC = () => {
           )}
         </Flex>
       </Container>
-      <UploadDesignModal
-        isOpen={showUploadDesignModal}
-        onClose={() => setShowUploadDesignModal(false)}
-      ></UploadDesignModal>
     </Box>
   );
 };

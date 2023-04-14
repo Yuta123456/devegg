@@ -15,7 +15,7 @@ import { Button } from "./Button";
 import { usePathname, useRouter } from "next/navigation";
 import { ref, uploadBytes } from "firebase/storage";
 import { storage } from "@/firebase/firebase";
-import { userState } from "@/app/state/user";
+import { userState } from "@/state/user";
 import { useRecoilState } from "recoil";
 import useSWR from "swr";
 type UploadDesignModalProps = {

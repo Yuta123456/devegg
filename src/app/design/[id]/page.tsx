@@ -13,7 +13,10 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
+import { PhoneIcon, AddIcon, WarningIcon } from "@chakra-ui/icons";
 import useSWR from "swr";
+import { useState } from "react";
+import { UploadDesignModal } from "@/components/UploadDesignModal";
 type PageProps = {
   params: {
     id: string;
@@ -30,6 +33,8 @@ const fetcher = (url: string) =>
       return designRequest;
     });
 export default function Home(props: PageProps) {
+  const [showUploadDesignModal, setShowUploadDesignModal] = useState(false);
+
   const {
     params: { id },
   } = props;
@@ -140,7 +145,30 @@ export default function Home(props: PageProps) {
               </CardBody>
             </Card>
           ))}
+        <Card
+          maxW="lg"
+          backgroundColor={"transparent"}
+          onClick={() => setShowUploadDesignModal(true)}
+          style={{ cursor: "pointer" }}
+        >
+          <CardBody>
+            <Flex
+              h="100%"
+              alignItems={"center"}
+              justifyContent={"center"}
+              color="gray.500"
+              flexDirection={"column"}
+            >
+              <AddIcon w="20%" h="20%" />
+              <Text pt="30px">デザインを追加</Text>
+            </Flex>
+          </CardBody>
+        </Card>
       </SimpleGrid>
+      <UploadDesignModal
+        isOpen={showUploadDesignModal}
+        onClose={() => setShowUploadDesignModal(false)}
+      />
     </>
   );
 }

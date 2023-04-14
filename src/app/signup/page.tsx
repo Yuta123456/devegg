@@ -21,7 +21,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { userState } from "../state/user";
+import { userState } from "../../state/user";
 import { useRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
 

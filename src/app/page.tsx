@@ -12,7 +12,7 @@ export default function Home() {
     isLoading,
   } = useSWR<DesignRequest[]>("/api/request", fetcher);
   if (error || isLoading || !designRequests) {
-    <div>loading...</div>;
+    return <div>loading...</div>;
   }
   console.log(designRequests);
   return (

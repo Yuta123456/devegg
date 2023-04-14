@@ -41,10 +41,10 @@ export const Header: FC = () => {
                 style={{ mr: "10px" }}
               />
               <Avatar
-                name="Kola Tioluwani"
                 hidden={!user}
+                // TODO: 画像変更
                 src="https://bit.ly/tioluwani-kolawole"
-                onClick={() => router.push("/user")}
+                onClick={() => router.push(`/user/${user.uid}`)}
                 style={{ cursor: "pointer" }}
               />
             </Box>

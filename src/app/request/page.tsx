@@ -43,6 +43,13 @@ export default function Home() {
       return;
     }
     if (!user) {
+      toast({
+        title: "ログインして下さい",
+        position: "top",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
       return;
     }
     const createDesignRequest: CreateDesignRequestInput = {

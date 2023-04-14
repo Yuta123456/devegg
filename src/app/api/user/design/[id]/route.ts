@@ -23,6 +23,10 @@ export async function GET(
   }
 }
 
+export type UserDesign = {
+  url: string;
+  requestId?: string;
+};
 const getDesignURLsByRequestUserId = async (req: Request, userId: string) => {
   console.log("getDesignURLsByRequestUserId", userId);
   const [files] = await storage.getFiles({
@@ -34,14 +38,18 @@ const getDesignURLsByRequestUserId = async (req: Request, userId: string) => {
 
   const regExp = new RegExp(`^images/[^/]+/${userId}/.*$`);
   const userFiles = files.filter((f) => regExp.test(f.name));
-  const downloadUrls = await Promise.all(
+
+  const regGetRequestId = new RegExp(`^images/([^/]+)/${userId}/.*$`);
+  const userDesigns: UserDesign[] = await Promise.all(
     userFiles.map(async (file) => {
       const [url] = await file.getSignedUrl({
         action: "read",
         expires: expirationDate, // URLの有効期限を指定
       });
-      return url;
+      const result = regGetRequestId.exec(file.name);
+
+      return { url, requestId: result ? result[1] : undefined };
     })
   );
-  return downloadUrls;
+  return userDesigns;
 };

@@ -1,8 +1,18 @@
 "use client";
 import { DesignRequest } from "@/model/DesignRequest";
 import useSWR from "swr";
-import { Box, Card, CardBody, Flex, Heading, Image } from "@chakra-ui/react";
+import {
+  Box,
+  Card,
+  CardBody,
+  Flex,
+  Heading,
+  Image,
+  Link,
+} from "@chakra-ui/react";
 import { RequestCard } from "@/components/RequestCard";
+import { UserDesign } from "@/app/api/user/design/[id]/route";
+import { useRouter } from "next/navigation";
 type PageProps = {
   params: {
     id: string;
@@ -36,12 +46,13 @@ export default function Home(props: PageProps) {
     `/api/user/request/${id}`,
     fetcher
   );
-  const { data: imageURLList } = useSWR<string[]>(
+  const { data: userDesigns } = useSWR<UserDesign[]>(
     `/api/user/design/${id}`,
     designFetcher
   );
 
-  if (designRequests === undefined || imageURLList === undefined || isLoading) {
+  const router = useRouter();
+  if (designRequests === undefined || userDesigns === undefined) {
     return <div>Loading...</div>;
   }
 
@@ -75,23 +86,25 @@ export default function Home(props: PageProps) {
           あなたが作成したデザイン一覧
         </Heading>
         <Flex overflowX="scroll">
-          {imageURLList !== undefined &&
-            imageURLList.map((url) => {
+          {userDesigns !== undefined &&
+            userDesigns.map((ud) => {
               //             id: string;
               // title: string;
               // concept: string;
               return (
-                <Box key={url} mr="8px" flexShrink={0}>
-                  <Card maxW="lg" key={url}>
-                    <CardBody>
-                      <Image
-                        src={url}
-                        borderRadius="lg"
-                        alt="design"
-                        h="30vh"
-                      />
-                    </CardBody>
-                  </Card>
+                <Box key={ud.url} mr="8px" flexShrink={0}>
+                  <Link href={ud.requestId ? `/design/${ud.requestId}` : ""}>
+                    <Card maxW="lg">
+                      <CardBody>
+                        <Image
+                          src={ud.url}
+                          borderRadius="lg"
+                          alt="design"
+                          h="30vh"
+                        />
+                      </CardBody>
+                    </Card>
+                  </Link>
                 </Box>
               );
             })}

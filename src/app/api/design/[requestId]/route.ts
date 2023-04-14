@@ -47,7 +47,3 @@ const getDesignURLsByRequestId = async (req: Request, requestId: string) => {
   console.log(downloadUrls);
   return downloadUrls;
 };
-
-// gs://devegg-bdced.appspot.com/images/5d5fae09-abdb-4ff2-ad03-d33d440e1f94/uY5XTgqyr5gV97a8slW2c4GkWLq1/22457750.png
-
-// 5d5fae09-abdb-4ff2-ad03-d33d440e1f94

@@ -7,7 +7,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { UploadDesignModal } from "./UploadDesignModal";
 import { useRecoilState } from "recoil";
-import { userState } from "@/app/state/user";
+import { userState } from "@/state/user";
+import { Avatar, AvatarBadge, AvatarGroup } from "@chakra-ui/react";
 export const Header: FC = () => {
   const pathname = usePathname();
   const router = useRouter();
@@ -18,10 +19,8 @@ export const Header: FC = () => {
   const isDesignPage = /\/design\/*/.test(pathname);
 
   const [user, _] = useRecoilState(userState);
-
-  const [showUploadDesignModal, setShowUploadDesignModal] = useState(false);
   return (
-    <Box h="100px" bg="white">
+    <Box bg="white">
       <Container maxW="container.lg" h="100%">
         <Flex h="100%" alignItems="center" justifyContent="space-between">
           <Link href="/">
@@ -34,20 +33,23 @@ export const Header: FC = () => {
             />
           </Link>
           {user ? (
-            <Box>
+            <Box textAlign={"right"} py="10px">
               <Button
                 onClick={() => router.push("/request")}
                 hidden={isLoginPage || isSignUpPage || isRequestPage}
                 label="依頼を投稿"
+                style={{ mr: "10px" }}
               />
-              <Button
-                onClick={() => setShowUploadDesignModal(true)}
-                hidden={!isDesignPage}
-                label="デザインを投稿"
+              <Avatar
+                hidden={!user}
+                // TODO: 画像変更
+                src="https://bit.ly/tioluwani-kolawole"
+                onClick={() => router.push(`/user/${user.uid}`)}
+                style={{ cursor: "pointer" }}
               />
             </Box>
           ) : (
-            <Box>
+            <Box textAlign={"right"} py="10px">
               <Button
                 onClick={() => router.push("/login")}
                 // onClick={() => setIsLogin(true)}
@@ -64,10 +66,6 @@ export const Header: FC = () => {
           )}
         </Flex>
       </Container>
-      <UploadDesignModal
-        isOpen={showUploadDesignModal}
-        onClose={() => setShowUploadDesignModal(false)}
-      ></UploadDesignModal>
     </Box>
   );
 };

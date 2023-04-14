@@ -13,7 +13,10 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
+import { PhoneIcon, AddIcon, WarningIcon } from "@chakra-ui/icons";
 import useSWR from "swr";
+import { useState } from "react";
+import { UploadDesignModal } from "@/components/UploadDesignModal";
 type PageProps = {
   params: {
     id: string;
@@ -30,6 +33,8 @@ const fetcher = (url: string) =>
       return designRequest;
     });
 export default function Home(props: PageProps) {
+  const [showUploadDesignModal, setShowUploadDesignModal] = useState(false);
+
   const {
     params: { id },
   } = props;
@@ -117,12 +122,22 @@ export default function Home(props: PageProps) {
           </ListItem>
         </List>
       </Box>
+      {imageURLList?.length === 0 ? (
+        <Heading fontSize="18px" py="15px">
+          デザインがまだ投稿されていません
+        </Heading>
+      ) : (
+        <Heading fontSize="18px" py="15px">
+          デザイン一覧
+        </Heading>
+      )}
+
       <SimpleGrid
         spacing={4}
         templateColumns="repeat(auto-fill, minmax(300px, 1fr))"
         paddingTop="10px"
       >
-        {imageURLList &&
+        {imageURLList !== undefined &&
           imageURLList.map((url) => (
             <Card maxW="lg" key={url}>
               <CardBody>
@@ -130,7 +145,30 @@ export default function Home(props: PageProps) {
               </CardBody>
             </Card>
           ))}
+        <Card
+          maxW="lg"
+          backgroundColor={"transparent"}
+          onClick={() => setShowUploadDesignModal(true)}
+          style={{ cursor: "pointer" }}
+        >
+          <CardBody>
+            <Flex
+              h="100%"
+              alignItems={"center"}
+              justifyContent={"center"}
+              color="gray.500"
+              flexDirection={"column"}
+            >
+              <AddIcon w="20%" h="20%" />
+              <Text pt="30px">デザインを追加</Text>
+            </Flex>
+          </CardBody>
+        </Card>
       </SimpleGrid>
+      <UploadDesignModal
+        isOpen={showUploadDesignModal}
+        onClose={() => setShowUploadDesignModal(false)}
+      />
     </>
   );
 }

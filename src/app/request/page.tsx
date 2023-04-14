@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { userState } from "../state/user";
+import { userState } from "../../state/user";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -43,6 +43,13 @@ export default function Home() {
       return;
     }
     if (!user) {
+      toast({
+        title: "ログインして下さい",
+        position: "top",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
       return;
     }
     const createDesignRequest: CreateDesignRequestInput = {

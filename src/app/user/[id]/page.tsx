@@ -1,18 +1,11 @@
 "use client";
 import { DesignRequest } from "@/model/DesignRequest";
 import useSWR from "swr";
-import {
-  Box,
-  Card,
-  CardBody,
-  Flex,
-  Heading,
-  Image,
-  Link,
-} from "@chakra-ui/react";
+import { Box, Card, CardBody, Flex, Heading, Image } from "@chakra-ui/react";
 import { RequestCard } from "@/components/RequestCard";
 import { UserDesign } from "@/app/api/user/design/[id]/route";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 type PageProps = {
   params: {
     id: string;
@@ -93,7 +86,7 @@ export default function Home(props: PageProps) {
               // concept: string;
               return (
                 <Box key={ud.url} mr="8px" flexShrink={0}>
-                  <Link href={ud.requestId ? `/design/${ud.requestId}` : ""}>
+                  <Link href={ud.requestId ? `design/${ud.requestId}` : ""}>
                     <Card maxW="lg">
                       <CardBody>
                         <Image

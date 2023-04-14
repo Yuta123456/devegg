@@ -40,12 +40,11 @@ export default function Home(props: PageProps) {
   } = props;
   // エラーあり得る
   const { data: designRequest } = useSWR<DesignRequest>(
-    `/api/user/request/${id}`,
+    `/api/request/${id}`,
     fetcher
   );
-  const { data: imageURLList } = useSWR<string[]>(
-    `/api/user/design/${id}`,
-    (url) => fetch(url).then((res) => res.json())
+  const { data: imageURLList } = useSWR<string[]>(`/api/design/${id}`, (url) =>
+    fetch(url).then((res) => res.json())
   );
   if (!designRequest) {
     return null;

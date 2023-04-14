@@ -1,19 +1,7 @@
 "use client";
 import { DesignRequest } from "@/model/DesignRequest";
 import useSWR from "swr";
-import {
-  Box,
-  Card,
-  CardBody,
-  Flex,
-  Heading,
-  Image,
-  List,
-  ListIcon,
-  ListItem,
-  SimpleGrid,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Card, CardBody, Flex, Heading, Image } from "@chakra-ui/react";
 import { RequestCard } from "@/components/RequestCard";
 type PageProps = {
   params: {
@@ -56,7 +44,7 @@ export default function Home(props: PageProps) {
   if (designRequests === undefined || imageURLList === undefined || isLoading) {
     return <div>Loading...</div>;
   }
-  console.log(designRequests);
+
   return (
     <>
       <Box>
@@ -86,6 +74,28 @@ export default function Home(props: PageProps) {
         <Heading as="h3" fontSize="22px" py="15px">
           あなたが作成したデザイン一覧
         </Heading>
+        <Flex overflowX="scroll">
+          {imageURLList !== undefined &&
+            imageURLList.map((url) => {
+              //             id: string;
+              // title: string;
+              // concept: string;
+              return (
+                <Box key={url} mr="8px" flexShrink={0}>
+                  <Card maxW="lg" key={url}>
+                    <CardBody>
+                      <Image
+                        src={url}
+                        borderRadius="lg"
+                        alt="design"
+                        h="30vh"
+                      />
+                    </CardBody>
+                  </Card>
+                </Box>
+              );
+            })}
+        </Flex>
       </Box>
     </>
   );

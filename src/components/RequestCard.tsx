@@ -70,22 +70,26 @@ export const RequestCard: FC<RequestCardProps> = ({
                 {concept}
               </Text>
             </Box>
-            <Box>
-              <Heading size="xs" textTransform="uppercase">
-                ターゲット層
-              </Heading>
-              <Text pt="2" fontSize="sm">
-                {targetAudience}
-              </Text>
-            </Box>
-            <Box>
-              <Heading size="xs" textTransform="uppercase">
-                値段
-              </Heading>
-              <Text pt="2" fontSize="sm">
-                {price}円
-              </Text>
-            </Box>
+            {targetAudience && (
+              <Box>
+                <Heading size="xs" textTransform="uppercase">
+                  ターゲット層
+                </Heading>
+                <Text pt="2" fontSize="sm">
+                  {targetAudience}
+                </Text>
+              </Box>
+            )}
+            {price && (
+              <Box>
+                <Heading size="xs" textTransform="uppercase">
+                  値段
+                </Heading>
+                <Text pt="2" fontSize="sm">
+                  {price}円
+                </Text>
+              </Box>
+            )}
             {fontName && (
               <Box>
                 <Heading size="xs" textTransform="uppercase">

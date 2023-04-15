@@ -1,12 +1,26 @@
 "use client";
-import { Box, Center, Flex, Heading, SimpleGrid, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  Heading,
+  Icon,
+  SimpleGrid,
+  Text,
+} from "@chakra-ui/react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
     <>
-      <SimpleGrid columns={2} minChildWidth="300px">
-        <Flex flexDirection="column">
+      <SimpleGrid columns={2} minChildWidth="300px" pb="50px">
+        <Flex
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+        >
           <Flex py="20px">
             <Heading fontFamily="Impact" letterSpacing="3px">
               What is DevEgg ?
@@ -18,7 +32,7 @@ export default function Home() {
             </Text>
           </Flex>
         </Flex>
-        <Flex>
+        <Flex justifyContent="center">
           <Image
             src="/DevEgg.svg"
             alt="Dev Egg logo"
@@ -29,7 +43,7 @@ export default function Home() {
       </SimpleGrid>
 
       <SimpleGrid columns={2} spacing={10} minChildWidth="300px">
-        <Flex flexDirection="column">
+        <Flex flexDirection="column" alignItems="center">
           <Heading fontFamily="Impact" letterSpacing="3px" py="20px">
             For Developers
           </Heading>
@@ -47,7 +61,7 @@ export default function Home() {
             そのデザイン、デザイナーの卵に任せてみませんか？
           </Text>
         </Flex>
-        <Flex flexDirection="column">
+        <Flex flexDirection="column" alignItems="center">
           <Heading fontFamily="Impact" letterSpacing="3px" py="20px">
             For Designers
           </Heading>
@@ -67,6 +81,20 @@ export default function Home() {
           </Text>
         </Flex>
       </SimpleGrid>
+      <Flex justifyContent="center">
+        <Link href="/">
+          <Button
+            size="lg"
+            bg="black"
+            _hover={{ bg: "gray.500" }}
+            variant="outline"
+            color="white"
+            mt="30px"
+          >
+            Dev Eggを初めてみる
+          </Button>
+        </Link>
+      </Flex>
     </>
   );
 }

@@ -18,7 +18,7 @@ export default function StyleLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  if (window !== undefined) {
+  if (typeof window !== undefined) {
     const isVisitBefore = localStorage.getItem("isVisitBefore") || undefined;
     if (!isVisitBefore) {
       localStorage.setItem("isVisitBefore", "true");

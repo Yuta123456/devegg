@@ -43,7 +43,7 @@ export const Header: FC = () => {
               <Avatar
                 hidden={!user}
                 // TODO: 画像変更
-                src="https://bit.ly/tioluwani-kolawole"
+                src={user.photoURL || ""}
                 onClick={() => router.push(`/user/${user.uid}`)}
                 style={{ cursor: "pointer" }}
               />

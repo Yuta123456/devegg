@@ -4,7 +4,6 @@ import useSWR from "swr";
 import { Box, Card, CardBody, Flex, Heading, Image } from "@chakra-ui/react";
 import { RequestCard } from "@/components/RequestCard";
 import { UserDesign } from "@/app/api/user/design/[id]/route";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Loading from "@/components/Loading";
 type PageProps = {
@@ -45,7 +44,6 @@ export default function Home(props: PageProps) {
     designFetcher
   );
 
-  const router = useRouter();
   if (designRequests === undefined || userDesigns === undefined) {
     return <Loading />;
   }
@@ -55,7 +53,7 @@ export default function Home(props: PageProps) {
         <Heading as="h3" fontSize="22px" py="15px">
           あなたの依頼一覧
         </Heading>
-        <Flex overflowX="scroll" pb="20px">
+        <Flex overflowX="auto" pb="20px">
           {designRequests !== undefined &&
             designRequests.map((req) => {
               //             id: string;
@@ -78,12 +76,9 @@ export default function Home(props: PageProps) {
         <Heading as="h3" fontSize="22px" py="15px">
           あなたが作成したデザイン一覧
         </Heading>
-        <Flex overflowX="scroll">
+        <Flex overflowX="auto">
           {userDesigns !== undefined &&
             userDesigns.map((ud) => {
-              //             id: string;
-              // title: string;
-              // concept: string;
               return (
                 <Box key={ud.url} mr="8px" flexShrink={0}>
                   <Link href={ud.requestId ? `design/${ud.requestId}` : ""}>

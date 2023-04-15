@@ -17,13 +17,15 @@ export default function StyleLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [_, setUser] = useRecoilState(userState);
   const router = useRouter();
-  const isVisitBefore = localStorage.getItem("isVisitBefore") || undefined;
-  if (!isVisitBefore) {
-    localStorage.setItem("isVisitBefore", "true");
-    router.push("/about");
+  if (window !== undefined) {
+    const isVisitBefore = localStorage.getItem("isVisitBefore") || undefined;
+    if (!isVisitBefore) {
+      localStorage.setItem("isVisitBefore", "true");
+      router.push("/about");
+    }
   }
+
   return (
     <Flex direction="column" minH="100vh" className={notojp.className}>
       <Header />

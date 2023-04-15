@@ -32,9 +32,9 @@ export default function Home() {
   const toast = useToast();
   const router = useRouter();
   const onSubmit = () => {
-    if (!title || !concept || !price || !targetAudience) {
+    if (!user) {
       toast({
-        title: "必須項目を入力してください",
+        title: "ログインして下さい",
         position: "top",
         status: "error",
         duration: 2000,
@@ -42,9 +42,9 @@ export default function Home() {
       });
       return;
     }
-    if (!user) {
+    if (!title || !concept || !price || !targetAudience) {
       toast({
-        title: "ログインして下さい",
+        title: "必須項目を入力してください",
         position: "top",
         status: "error",
         duration: 2000,

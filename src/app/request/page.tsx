@@ -87,19 +87,18 @@ export default function Home() {
   return (
     <Center flexDirection="column">
       <Heading py="30px" size="lg">
-        デザイナーさんにデザインを依頼する
+        デザインの依頼を作成する
       </Heading>
       <Stack spacing="4" maxW="600px" w="100%">
         <Box>
           <FormControl isRequired>
             <FormLabel>タイトル</FormLabel>
             <Input
-              style={{
-                border: `1px solid #000000`,
-              }}
+              bg="gray.50"
               placeholder="タイトルを入力してください"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              _focus={{ bg: "white" }}
             />
           </FormControl>
         </Box>
@@ -107,12 +106,11 @@ export default function Home() {
           <FormControl isRequired>
             <FormLabel>コンセプト</FormLabel>
             <Input
-              style={{
-                border: `1px solid #000000`,
-              }}
+              bg="gray.50"
               placeholder="コンセプトを入力してください"
               value={concept}
               onChange={(e) => setConcept(e.target.value)}
+              _focus={{ bg: "white" }}
             />
           </FormControl>
         </Box>
@@ -120,12 +118,11 @@ export default function Home() {
           <FormControl isRequired>
             <FormLabel>ターゲット層</FormLabel>
             <Input
-              style={{
-                border: `1px solid #000000`,
-              }}
+              bg="gray.50"
               placeholder="ターゲット層を入力してください"
               value={targetAudience}
               onChange={(e) => setTargetAudience(e.target.value)}
+              _focus={{ bg: "white" }}
             />
           </FormControl>
         </Box>
@@ -135,14 +132,13 @@ export default function Home() {
             <Input
               placeholder="半角数字を入力してください"
               value={price}
-              style={{
-                border: `1px solid #000000`,
-              }}
+              bg="gray.50"
               onChange={(e) => {
                 if (e.target.value.match(/^[0-9]*$/)) {
                   setPrice(e.target.value);
                 }
               }}
+              _focus={{ bg: "white" }}
             />
           </FormControl>
         </Box>
@@ -153,13 +149,12 @@ export default function Home() {
               placeholder="納期を入力してください"
               value={getDateString(deadline)}
               type="date"
-              style={{
-                border: `1px solid #000000`,
-              }}
+              bg="gray.50"
               onChange={(e) => {
                 const newDeadline = new Date(e.target.value);
                 setDeadline(newDeadline);
               }}
+              _focus={{ bg: "white" }}
             />
           </FormControl>
         </Box>
@@ -170,9 +165,8 @@ export default function Home() {
               placeholder="フォントを入力してください"
               value={fontName}
               onChange={(e) => setFontName(e.target.value)}
-              style={{
-                border: `1px solid #000000`,
-              }}
+              bg="gray.50"
+              _focus={{ bg: "white" }}
             />
           </FormControl>
         </Box>
@@ -221,9 +215,8 @@ export default function Home() {
                     newColorCode[index] = e.target.value;
                     setColorCode(newColorCode);
                   }}
-                  style={{
-                    border: `1px solid #000000`,
-                  }}
+                  bg="gray.50"
+                  _focus={{ bg: "white" }}
                 />
               </div>
             ))}

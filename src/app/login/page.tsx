@@ -116,9 +116,8 @@ export default function Home() {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          style={{
-            border: `1px solid #000000`,
-          }}
+          bg="gray.50"
+          _focus={{ bg: "white" }}
         />
         {isError && (
           <FormErrorMessage>メールアドレスを入力してください</FormErrorMessage>
@@ -128,9 +127,8 @@ export default function Home() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={{
-            border: `1px solid #000000`,
-          }}
+          bg="gray.50"
+          _focus={{ bg: "white" }}
         />
         {isError && (
           <FormErrorMessage>パスワードを入力してください</FormErrorMessage>

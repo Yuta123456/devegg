@@ -6,6 +6,7 @@ import { RequestCard } from "@/components/RequestCard";
 import { UserDesign } from "@/app/api/user/design/[id]/route";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Loading from "@/components/Loading";
 type PageProps = {
   params: {
     id: string;
@@ -46,9 +47,8 @@ export default function Home(props: PageProps) {
 
   const router = useRouter();
   if (designRequests === undefined || userDesigns === undefined) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
-
   return (
     <>
       <Box>

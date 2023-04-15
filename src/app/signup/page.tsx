@@ -153,7 +153,7 @@ export default function Home() {
           isLoading={isGithubSignUpLoading}
         >
           <Image
-            src="/Github.svg"
+            src="/github.svg"
             alt="Dev Egg logo"
             width="20"
             height="20"

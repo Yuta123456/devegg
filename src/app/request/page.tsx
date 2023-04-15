@@ -44,7 +44,7 @@ export default function Home() {
     }
     if (!title || !concept || !price || !targetAudience) {
       toast({
-        title: "必須項目を入力してください",
+        title: "必須項目を入力",
         position: "top",
         status: "error",
         duration: 2000,
@@ -95,7 +95,7 @@ export default function Home() {
             <FormLabel>タイトル</FormLabel>
             <Input
               bg="gray.50"
-              placeholder="タイトルを入力してください"
+              placeholder="タイトルを入力"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               _focus={{ bg: "white" }}
@@ -107,7 +107,7 @@ export default function Home() {
             <FormLabel>コンセプト</FormLabel>
             <Input
               bg="gray.50"
-              placeholder="コンセプトを入力してください"
+              placeholder="コンセプトを入力"
               value={concept}
               onChange={(e) => setConcept(e.target.value)}
               _focus={{ bg: "white" }}
@@ -119,7 +119,7 @@ export default function Home() {
             <FormLabel>ターゲット層</FormLabel>
             <Input
               bg="gray.50"
-              placeholder="ターゲット層を入力してください"
+              placeholder="ターゲット層を入力"
               value={targetAudience}
               onChange={(e) => setTargetAudience(e.target.value)}
               _focus={{ bg: "white" }}
@@ -130,7 +130,7 @@ export default function Home() {
           <FormControl isRequired>
             <FormLabel>値段</FormLabel>
             <Input
-              placeholder="半角数字を入力してください"
+              placeholder="半角数字を入力"
               value={price}
               bg="gray.50"
               onChange={(e) => {
@@ -146,7 +146,7 @@ export default function Home() {
           <FormControl>
             <FormLabel>納期</FormLabel>
             <Input
-              placeholder="納期を入力してください"
+              placeholder="納期を入力"
               value={getDateString(deadline)}
               type="date"
               bg="gray.50"
@@ -162,7 +162,7 @@ export default function Home() {
           <FormControl>
             <FormLabel>フォント</FormLabel>
             <Input
-              placeholder="フォントを入力してください"
+              placeholder="使用して欲しいフォントを入力"
               value={fontName}
               onChange={(e) => setFontName(e.target.value)}
               bg="gray.50"
@@ -207,7 +207,7 @@ export default function Home() {
                 }}
               >
                 <Input
-                  placeholder="#38B2AC"
+                  placeholder="使用して欲しいテーマカラーを入力"
                   value={cc}
                   width="80%"
                   onChange={(e) => {

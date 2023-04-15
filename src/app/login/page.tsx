@@ -13,7 +13,7 @@ import {
   Heading,
   Icon,
   Input,
-  Text,
+  Stack,
   useToast,
 } from "@chakra-ui/react";
 import {
@@ -27,7 +27,7 @@ import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { userState } from "../../state/user";
 import { useRouter } from "next/navigation";
-
+// import
 export default function Home() {
   const [isError, setIsError] = useState(false);
   const [email, setEmail] = useState("");
@@ -110,15 +110,14 @@ export default function Home() {
         Welcome back to DevEgg!
       </Heading>
       <Image src="/DevEgg.png" alt="DevEgg logo" width={200} height={200} />
-      <FormControl isInvalid={isError} maxW="500px">
+      <FormControl isInvalid={isError} maxW="500px" pb="20px">
         <FormLabel>メールアドレス</FormLabel>
         <Input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          style={{
-            border: `1px solid #000000`,
-          }}
+          bg="gray.50"
+          _focus={{ bg: "white" }}
         />
         {isError && (
           <FormErrorMessage>メールアドレスを入力してください</FormErrorMessage>
@@ -128,48 +127,44 @@ export default function Home() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={{
-            border: `1px solid #000000`,
-          }}
+          bg="gray.50"
+          _focus={{ bg: "white" }}
         />
         {isError && (
           <FormErrorMessage>パスワードを入力してください</FormErrorMessage>
         )}
       </FormControl>
-      <Button
-        size="lg"
-        bg="white"
-        _hover={{ bg: "gray.100" }}
-        variant="outline"
-        mt="15px"
-        onClick={loginWithEmailAndPassWord}
-        isLoading={isLoginLoading}
-      >
-        ログイン
-      </Button>
-      <Button
-        size="lg"
-        bg="white"
-        _hover={{ bg: "gray.100" }}
-        variant="outline"
-        mt="15px"
-        onClick={loginWithGithub}
-        isLoading={isGithubLoginLoading}
-      >
-        GitHubでログイン
-      </Button>
-      <Link href="./about">
+      <Stack>
         <Button
           size="lg"
-          bg="black"
-          _hover={{ bg: "gray.500" }}
+          bg="white"
+          _hover={{ bg: "gray.100" }}
           variant="outline"
-          color="white"
-          mt="30px"
+          mt="15px"
+          onClick={loginWithEmailAndPassWord}
+          isLoading={isLoginLoading}
         >
-          Dev Eggについて <Icon as={ChevronRightIcon} />
+          ログイン
         </Button>
-      </Link>
+        <Button
+          size="lg"
+          bg="white"
+          _hover={{ bg: "gray.100" }}
+          variant="outline"
+          mt="15px"
+          onClick={loginWithGithub}
+          isLoading={isGithubLoginLoading}
+        >
+          <Image
+            src="/Github.svg"
+            alt="Dev Egg logo"
+            width="20"
+            height="20"
+            style={{ marginRight: "5px" }}
+          />
+          GitHubでログイン
+        </Button>
+      </Stack>
     </Center>
   );
 }

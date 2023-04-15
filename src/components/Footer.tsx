@@ -1,31 +1,35 @@
 "use client";
-import { Box, Container, Flex, Link, Text } from "@chakra-ui/react";
-
+import { Box, Container, Flex, Text } from "@chakra-ui/react";
+import Link from "next/link";
+import Image from "next/image";
 const Footer = () => {
   return (
-    <Box h="100px" bg="white">
+    <Box bg="white">
       <Container maxW="container.lg">
-        <Flex
-          as="footer"
-          align="center"
-          justify="space-between"
-          wrap="wrap"
-          py="6"
-          px="8"
-          bg="white"
-          color="black"
-          mt="auto"
-        >
-          <Text>&copy; Tanaka Yuta</Text>
-          <Flex align="center">
-            <Text>Powered by</Text>
-            <Link href="https://nextjs.org/" isExternal ml="1">
-              Next.js
+        <Flex as="footer" justify="space-between" py="6">
+          <Flex flexDirection="column">
+            <Text fontWeight="bold" pb="7px">
+              Links
+            </Text>
+            <Link href="/about">
+              <Text color="gray.500" pb="4px">
+                DevEggについて
+              </Text>
             </Link>
-            <Text>&amp;</Text>
-            <Link href="https://chakra-ui.com/" isExternal ml="1">
-              ChakraUI
+            <Link href="https://twitter.com/nayuta999999">
+              <Text color="gray.500" pb="4px">
+                Twitter
+              </Text>
             </Link>
+          </Flex>
+          <Flex flexDirection="column">
+            <Image
+              src="/DevEgg.svg"
+              alt="Dev Egg logo"
+              width="100"
+              height="100"
+            />
+            <Text fontWeight="bold">&copy; 2023 Tanaka Yuta</Text>
           </Flex>
         </Flex>
       </Container>

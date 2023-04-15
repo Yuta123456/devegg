@@ -3,6 +3,7 @@ import { SimpleGrid } from "@chakra-ui/react";
 import { RequestCard } from "@/components/RequestCard";
 import useSWR from "swr";
 import { DesignRequest } from "@/model/DesignRequest";
+import Loading from "@/components/Loading";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 export default function Home() {
@@ -12,9 +13,9 @@ export default function Home() {
     isLoading,
   } = useSWR<DesignRequest[]>("/api/request", fetcher);
   if (error || isLoading || !designRequests) {
-    return <div>loading...</div>;
+    return <Loading />;
   }
-  console.log(designRequests);
+
   return (
     <SimpleGrid
       spacing={4}

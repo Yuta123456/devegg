@@ -12,11 +12,14 @@ import {
   ListItem,
   SimpleGrid,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { PhoneIcon, AddIcon, WarningIcon } from "@chakra-ui/icons";
 import useSWR from "swr";
 import { useState } from "react";
 import { UploadDesignModal } from "@/components/UploadDesignModal";
+import { useRecoilState } from "recoil";
+import { userState } from "@/state/user";
 type PageProps = {
   params: {
     id: string;
@@ -34,7 +37,8 @@ const fetcher = (url: string) =>
     });
 export default function Home(props: PageProps) {
   const [showUploadDesignModal, setShowUploadDesignModal] = useState(false);
-
+  const [user, _] = useRecoilState(userState);
+  const toast = useToast();
   const {
     params: { id },
   } = props;
@@ -46,10 +50,26 @@ export default function Home(props: PageProps) {
   const { data: imageURLList } = useSWR<string[]>(`/api/design/${id}`, (url) =>
     fetch(url).then((res) => res.json())
   );
-  if (!designRequest) {
+  if (!designRequest || !imageURLList) {
     return null;
   }
 
+  const isAbleAddDesign = imageURLList.length <= 5;
+
+  const addDesign = () => {
+    if (!user) {
+      toast({
+        title: "デザインを投稿にするにはログインして下さい",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      });
+      return;
+    }
+
+    setShowUploadDesignModal(true);
+  };
   return (
     <>
       <Box pt="15px">
@@ -145,27 +165,29 @@ export default function Home(props: PageProps) {
               </CardBody>
             </Card>
           ))}
-        <Card
-          maxW="lg"
-          backgroundColor={"transparent"}
-          onClick={() => setShowUploadDesignModal(true)}
-          style={{ cursor: "pointer" }}
-          color="gray.500"
-          transition="background-color 0.2s ease-in-out"
-          _hover={{ background: "white" }}
-        >
-          <CardBody>
-            <Flex
-              h="100%"
-              alignItems={"center"}
-              justifyContent={"center"}
-              flexDirection={"column"}
-            >
-              <AddIcon w="20%" h="20%" />
-              <Text pt="30px">デザインを追加</Text>
-            </Flex>
-          </CardBody>
-        </Card>
+        {isAbleAddDesign && (
+          <Card
+            maxW="lg"
+            backgroundColor={"transparent"}
+            onClick={addDesign}
+            style={{ cursor: "pointer" }}
+            color="gray.500"
+            transition="background-color 0.2s ease-in-out"
+            _hover={{ background: "white" }}
+          >
+            <CardBody>
+              <Flex
+                h="100%"
+                alignItems={"center"}
+                justifyContent={"center"}
+                flexDirection={"column"}
+              >
+                <AddIcon w="20%" h="20%" />
+                <Text pt="30px">デザインを追加</Text>
+              </Flex>
+            </CardBody>
+          </Card>
+        )}
       </SimpleGrid>
       <UploadDesignModal
         isOpen={showUploadDesignModal}

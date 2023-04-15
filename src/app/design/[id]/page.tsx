@@ -150,13 +150,15 @@ export default function Home(props: PageProps) {
           backgroundColor={"transparent"}
           onClick={() => setShowUploadDesignModal(true)}
           style={{ cursor: "pointer" }}
+          color="gray.500"
+          transition="background-color 0.2s ease-in-out"
+          _hover={{ background: "white" }}
         >
           <CardBody>
             <Flex
               h="100%"
               alignItems={"center"}
               justifyContent={"center"}
-              color="gray.500"
               flexDirection={"column"}
             >
               <AddIcon w="20%" h="20%" />

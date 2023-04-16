@@ -78,7 +78,7 @@ export default function Home() {
       postCreateData();
     }
   };
-  const postCreateData = () => {
+  const postCreateData = async () => {
     if (!user) {
       return;
     }
@@ -97,7 +97,7 @@ export default function Home() {
       createdAt: new Date().toLocaleString(),
       updatedAt: new Date().toLocaleString(),
     };
-    fetch("/api/request", {
+    await fetch("/api/request", {
       method: "POST",
       body: JSON.stringify(createDesignRequest),
     })

@@ -13,18 +13,26 @@ import {
   ListItem,
   UnorderedList,
 } from "@chakra-ui/react";
-import { FC } from "react";
+import { Button as YButton } from "./Button";
+import { FC, useState } from "react";
 
 type ConfirmDialogProps = {
   isOpen: boolean;
   onClose: () => void;
-  postData: () => void;
+  postData: () => Promise<void>;
 };
 export const ConfirmDialog: FC<ConfirmDialogProps> = ({
   isOpen,
   onClose,
   postData,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const onSubmit = () => {
+    setIsLoading(true);
+    postData().finally(() => {
+      setIsLoading(false);
+    });
+  };
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} isCentered size="3xl">
@@ -47,13 +55,17 @@ export const ConfirmDialog: FC<ConfirmDialogProps> = ({
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="yellow" onClick={postData}>
-              内容を理解し依頼を投稿する
-            </Button>
+            <YButton
+              label="内容を理解し依頼を投稿する"
+              onClick={onSubmit}
+              style={{ isLoading }}
+            />
             <Button
               bg="white"
+              size="lg"
               _hover={{ bg: "gray.100" }}
               variant="outline"
+              ml="5px"
               onClick={onClose}
             >
               戻る

@@ -140,6 +140,16 @@ export default function Home(props: PageProps) {
               </Text>
             </Flex>
           </ListItem>
+          {designRequest.emailAddress && (
+            <ListItem>
+              <Flex mb="2">
+                <Text fontWeight="bold" w="30%">
+                  依頼者のメールアドレス
+                </Text>
+                <Text>{designRequest.emailAddress}</Text>
+              </Flex>
+            </ListItem>
+          )}
         </List>
       </Box>
       {imageURLList?.length === 0 ? (

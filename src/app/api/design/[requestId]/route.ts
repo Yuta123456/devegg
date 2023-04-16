@@ -1,8 +1,5 @@
-import { CreateDesignRequestInput } from "@/model/DesignRequest";
 import { NextResponse } from "next/server";
 import { storage } from "../../firebase/firebase-admin";
-import { ref } from "firebase/storage";
-const COLLECTION_NAME = "requests";
 
 // fetch("http://localhost:3000/api/request").then((res) => res.json()).then((res) => console.log(res));
 export async function GET(

@@ -51,17 +51,17 @@ export default function Home() {
       });
       return;
     }
-    if (emailAddress && checkPrivacy === false) {
-      toast({
-        title:
-          "メールアドレスを入力する場合はプライバシーポリシーを確認してください",
-        position: "top",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
-      return;
-    }
+    // if (emailAddress && checkPrivacy === false) {
+    //   toast({
+    //     title:
+    //       "メールアドレスを入力する場合はプライバシーポリシーを確認してください",
+    //     position: "top",
+    //     status: "error",
+    //     duration: 2000,
+    //     isClosable: true,
+    //   });
+    //   return;
+    // }
     if (!title || !concept || !price || !targetAudience) {
       toast({
         title: "必須項目を入力",
@@ -72,7 +72,11 @@ export default function Home() {
       });
       return;
     }
-    setShowConfirm(true);
+    if (emailAddress) {
+      setShowConfirm(true);
+    } else {
+      postCreateData();
+    }
   };
   const postCreateData = () => {
     if (!user) {
@@ -287,7 +291,7 @@ export default function Home() {
                   _focus={{ bg: "white" }}
                 />
               </FormControl>
-              <Flex alignItems="center" pt="10px">
+              {/* <Flex alignItems="center" pt="10px">
                 <Checkbox
                   size="md"
                   display={"flex"}
@@ -297,11 +301,11 @@ export default function Home() {
                     setCheckPrivacy(e.target.checked);
                   }}
                 />
-                <Link href={"/privacy"}>
+                <a href="/privacy" target="_blank">
                   <Text color="#23527c">プライバシーポリシー</Text>
-                </Link>
+                </a>
                 に同意する
-              </Flex>
+              </Flex> */}
             </Box>
           </FormControl>
         </Box>

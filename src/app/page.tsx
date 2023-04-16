@@ -5,7 +5,24 @@ import useSWR from "swr";
 import { DesignRequest } from "@/model/DesignRequest";
 import Loading from "@/components/Loading";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const fetcher = (url: string) =>
+  fetch(url)
+    .then((res) => res.json())
+    .then((res) => {
+      console.log(res.deadline);
+      if (res && res.length !== 0) {
+        const designRequests: DesignRequest[] = res.map((dr: any) => {
+          const designRequest: DesignRequest = {
+            ...dr,
+            deadline: new Date(dr.deadline),
+          };
+          return designRequest;
+        });
+        return designRequests;
+      } else {
+        return [];
+      }
+    });
 export default function Home() {
   const {
     data: designRequests,

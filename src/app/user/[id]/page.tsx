@@ -22,7 +22,7 @@ const fetcher = (url: string) =>
         const designRequests: DesignRequest[] = res.map((dr: any) => {
           const designRequest: DesignRequest = {
             ...dr,
-            deadline: new Date(res.deadline),
+            deadline: new Date(dr.deadline),
           };
           return designRequest;
         });

@@ -8,6 +8,7 @@ export type DesignRequest = {
   colorCode?: string[];
   fontName?: string;
   deadline?: Date;
+  emailAddress?: string;
 };
 
 // バックエンドでのリクエストを受ける時、及びリクエストを投げるときに使う型

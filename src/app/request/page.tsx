@@ -13,11 +13,16 @@ import {
   useToast,
   Center,
   Heading,
+  Checkbox,
+  Text,
+  Flex,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { userState } from "../../state/user";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { ConfirmDialog } from "@/components/ConfirmDialog";
 
 export default function Home() {
   const [title, setTitle] = useState("");
@@ -27,6 +32,10 @@ export default function Home() {
   const [colorCode, setColorCode] = useState<string[]>([""]);
   const [fontName, setFontName] = useState<string>("");
   const [deadline, setDeadline] = useState<Date | undefined>();
+  const [emailAddress, setEmailAddress] = useState("");
+
+  const [checkPrivacy, setCheckPrivacy] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const [user, _] = useRecoilState(userState);
   const toast = useToast();
@@ -42,6 +51,17 @@ export default function Home() {
       });
       return;
     }
+    // if (emailAddress && checkPrivacy === false) {
+    //   toast({
+    //     title:
+    //       "メールアドレスを入力する場合はプライバシーポリシーを確認してください",
+    //     position: "top",
+    //     status: "error",
+    //     duration: 2000,
+    //     isClosable: true,
+    //   });
+    //   return;
+    // }
     if (!title || !concept || !price || !targetAudience) {
       toast({
         title: "必須項目を入力",
@@ -50,6 +70,16 @@ export default function Home() {
         duration: 2000,
         isClosable: true,
       });
+      return;
+    }
+    if (emailAddress) {
+      setShowConfirm(true);
+    } else {
+      postCreateData();
+    }
+  };
+  const postCreateData = async () => {
+    if (!user) {
       return;
     }
     const createDesignRequest: CreateDesignRequestInput = {
@@ -62,11 +92,12 @@ export default function Home() {
         colorCode,
         fontName,
         deadline,
+        emailAddress,
       },
       createdAt: new Date().toLocaleString(),
       updatedAt: new Date().toLocaleString(),
     };
-    fetch("/api/request", {
+    await fetch("/api/request", {
       method: "POST",
       body: JSON.stringify(createDesignRequest),
     })
@@ -249,6 +280,33 @@ export default function Home() {
                 });
               }}
             />
+            <Box py="20px">
+              <FormControl>
+                <FormLabel>メールアドレス</FormLabel>
+                <Input
+                  placeholder="公開メールアドレスを入力"
+                  value={emailAddress}
+                  onChange={(e) => setEmailAddress(e.target.value)}
+                  bg="gray.50"
+                  _focus={{ bg: "white" }}
+                />
+              </FormControl>
+              {/* <Flex alignItems="center" pt="10px">
+                <Checkbox
+                  size="md"
+                  display={"flex"}
+                  mr="5px"
+                  isChecked={checkPrivacy}
+                  onChange={(e) => {
+                    setCheckPrivacy(e.target.checked);
+                  }}
+                />
+                <a href="/privacy" target="_blank">
+                  <Text color="#23527c">プライバシーポリシー</Text>
+                </a>
+                に同意する
+              </Flex> */}
+            </Box>
           </FormControl>
         </Box>
         <Button
@@ -262,6 +320,13 @@ export default function Home() {
           依頼する
         </Button>
       </Stack>
+      <ConfirmDialog
+        isOpen={showConfirm}
+        onClose={() => {
+          setShowConfirm(false);
+        }}
+        postData={postCreateData}
+      />
     </Center>
   );
 }

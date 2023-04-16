@@ -48,7 +48,7 @@ export const UploadDesignModal: FC<UploadDesignModalProps> = ({
     setFileName(event.target.files[0].name);
     setFile(event.target.files[0]);
   };
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (file === undefined) {
       toast({
         title: "ファイルを選択してください",
@@ -61,9 +61,21 @@ export const UploadDesignModal: FC<UploadDesignModalProps> = ({
     }
 
     const storageRef = ref(storage, `images/${id}/${user?.uid}/${fileName}`);
-    uploadBytes(storageRef, file).then((snapshot) => {
-      console.log("Uploaded an image!", snapshot.metadata);
-    });
+    try {
+      await uploadBytes(storageRef, file);
+    } catch (e) {
+      console.log(e);
+      toast({
+        title: "画像のアップロード中にエラーが発生しました",
+        description: "画像のサイズ等を小さくしてみてください",
+        position: "top",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    }
+
     setFile(undefined);
     setFileName("");
     onClose();
